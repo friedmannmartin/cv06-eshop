@@ -3,7 +3,7 @@
   session_start();//nastartujeme session
   require 'db.php';//načteme připojení k databázi
 
-  $ids = array_keys(@$_SESSION['cart']);//načteme IDčka zboží, které máme v košíku (pročpak je tu asi ten zavináč :-))
+  $ids = @array_keys($_SESSION['cart']);//načteme IDčka zboží, které máme v košíku (pročpak je tu asi ten zavináč :-))
 
   if (is_array($ids) && count($ids)>0) {
 
