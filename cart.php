@@ -31,7 +31,7 @@
 
 	  <h1>My shopping cart</h1>
 
-    Total goods selected: <strong><?php echo (!empty($goods)?count($goods):'0'); ?></strong>
+    Total goods selected: <strong><?php echo (!empty($goods)?array_sum($_SESSION['cart']):'0'); ?></strong>
 
 	  <br/><br/>
 
