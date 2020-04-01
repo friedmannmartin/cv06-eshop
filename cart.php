@@ -3,7 +3,7 @@
   session_start();//nastartujeme session
   require 'db.php';//načteme připojení k databázi
 
-  $ids = @$_SESSION['cart'];//načteme IDčka zboží, které máme v košíku (pročpak je tu asi ten zavináč :-))
+  $ids = array_keys(@$_SESSION['cart']);//načteme IDčka zboží, které máme v košíku (pročpak je tu asi ten zavináč :-))
 
   if (is_array($ids) && count($ids)>0) {
 
@@ -26,17 +26,17 @@
     <link rel="stylesheet" type="text/css" href="./styles.css">
   </head>
   <body>
-	
+
 	  <?php include 'navbar.php' ?>
-		
+
 	  <h1>My shopping cart</h1>
-	
+
     Total goods selected: <strong><?php echo (!empty($goods)?count($goods):'0'); ?></strong>
-	
+
 	  <br/><br/>
-	
+
     <a href="index.php">Back to the goods</a>
-	
+
 	  <br/><br/>
 
 	  <?php
@@ -51,6 +51,7 @@
                     <th></th>
                     <th>Name</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -63,9 +64,10 @@
                     </td>
                     <td>'.htmlspecialchars($good['name']).'</td>
                     <td class="right">'.$good['price'].'</td>
+                    <td class="right">'.$_SESSION['cart'][$good['id']].'</td>
                     <td>'.htmlspecialchars($good['description']).'</td>
                   </tr>';
-          $sum+=$good['price'];
+          $sum+=$good['price']*$_SESSION['cart'][$good['id']]; //Cena * množství
         }
         #endregion výpis jednotlivých položek v košíku
         echo '  </tbody>
@@ -75,8 +77,9 @@
                     <td></td>
                     <td class="right">'.$sum.'</td>
                     <td></td>
+                    <td></td>
                   </tr>
-                </tfoot>                
+                </tfoot>
               </table>';
         #endregion výpis zboží v košíku
       }else{
